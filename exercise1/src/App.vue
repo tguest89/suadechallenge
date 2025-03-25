@@ -14,7 +14,7 @@
   <div class="solution">
 
     <div class="person-wrapper">
-      <PersonCard v-for="person in people" :person="person" class="person-card" :personClick="alertBox"/>
+      <PersonCard v-for="person in people" :key="person.id" :person="person" @personClick="alertBox"/>
     </div>
     <div class="summary">{{people.length}} persons cards displayed</div>
 
@@ -45,15 +45,6 @@
 </script>
 
 <style lang="scss">
-
-  .person-card {
-    background: #e4e4e4;
-    min-width: 100px;
-    float: left;
-    width: 300px;
-    margin: 10px;
-  }
-
   .summary {
     text-align: center;
     clear: both;
@@ -63,12 +54,6 @@
     border: 1px solid #dedede;
     padding: 0 0.5em;
     min-height: 40px;
-
-    .code {
-      color: #434343;
-      background-color: #f9f9f9;
-      padding: 0 5px;
-    }
   }
 
 </style>
