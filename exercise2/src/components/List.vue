@@ -1,15 +1,17 @@
 <template>
 
-  <ul>
+  <ul v-if="paginatedData.length">
     <li v-for="item in paginatedData" :key="item._id">
       {{ item.name }}
     </li>
   </ul>
+  <!-- Giving feedback to user if list is empty -->
+  <p v-else>No results found</p>
   <div class="pagination">
     <ul>
-      <li @click="changePage(currentPage-1)" :class="{disabled: currentPage === 0}">&lt;</li>
-      <li v-for="p in pages" :key="p" @click="changePage(p)" :class="{active: p === currentPage}">{{ p + 1 }}</li>
-      <li @click="changePage(currentPage+1)" :class="{disabled: currentPage === pages.length - 1}">&gt;</li>
+      <li :class="{disabled: currentPage === 0}" @click="changePage(currentPage-1)">&lt;</li>
+      <li v-for="p in pages" :key="p" :class="{active: p === currentPage}" @click="changePage(p)">{{ p + 1 }}</li>
+      <li :class="{disabled: currentPage === pages.length - 1}" @click="changePage(currentPage+1)">&gt;</li>
     </ul>
   </div>
 
@@ -19,21 +21,26 @@
 
   export default {
     name: 'List',
+    emits: ["pageChanged"],
     props: {
-      data: {type: Array, default: ()=>[]},
-      options: {type: Object, default: ()=>({limit: 25, offset: 0})},
+      data: { 
+        type: Array, 
+        default: () => [],
+      },
+      options: {
+        type: Object,
+        default: () => ({ 
+          limit: 25, 
+          offset: 0,
+        }),
+      },
     },
     computed: {
       // sort data by name
       sortedData() {
-        return this.data.sort((a, b)=>{
-          if (a.name < b.name) {
-            return -1;
-          } else if (a.name > b.name) {
-            return 1;
-          }
-          return 0;
-        });
+        //Using .slice() to create a copy off "data" prop, and sort that
+        //Using localeCompare to compare strings as it will return -1, 0 or 1
+        return this.data.slice().sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''));
       },
       // paginate data
       paginatedData() {
@@ -43,7 +50,7 @@
       pages() {
         return new Array(Math.ceil(this.data.length / this.options.pagination.limit))
           .fill()
-          .map((v, i)=>i);
+          .map((_, i)=>i);
       },
       // currently displayed page
       currentPage() {
@@ -52,7 +59,7 @@
     },
     methods: {
       changePage(page) {
-        this.options.pagination.offset = (page) * this.options.pagination.limit;
+        this.$emit("pageChanged", page);
       },
     },
   };

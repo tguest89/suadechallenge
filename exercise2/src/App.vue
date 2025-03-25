@@ -16,7 +16,7 @@
   </div>
   <h4>Solution</h4>
   <div class="solution">
-    <List data="people" options="options"></List>
+    <List :data="people" :options="options" @pageChanged="onPageChanged" />
   </div>
 
 </template>
@@ -28,20 +28,34 @@
   export default {
     name: 'App',
     components: {List},
-    data: ()=>{
+    data: () => {
       return {
         people: [],
-        options: {pagination: {limit: 10, offset: 0}},
+        options: {
+          pagination: {
+            limit: 10, 
+            offset: 0,
+          },
+        },
       };
     },
     created() {
       fetch('https://suade.org/filehosting/challenges/people.json')
-        .then(function(response) {
-          response.json();
-        })
-        .then(function(data) {
-          this.people = data;
+        .then(response => 
+          response.json()
+        )
+        .then(data => 
+          this.people = data
+        )
+        //Added Error logging in console for data fetching
+        .catch(err => {
+          console.error("Error! Failed to load data (List of people)", err);
         });
+    },
+    methods: {
+      onPageChanged(page) {
+        this.options.pagination.offset = (page) * this.options.pagination.limit;
+      },
     },
   };
 
