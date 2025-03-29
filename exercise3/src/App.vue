@@ -117,4 +117,87 @@
 
   // TODO: Add your CSS Styling here
 
+  .container {
+    display: grid;
+    gap: var(--item-margin);
+
+    grid-template-columns: repeat(
+      var(--items-by-row-when-screen-is-more-than-1024px),
+      1fr
+    );
+
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(
+        var(--items-by-row-when-screen-is-more-than-600px),
+        1fr
+      );
+    }
+
+    @media (max-width: 600px) {
+      grid-template-columns: repeat(
+        var(--items-by-row-when-screen-is-less-than-600px),
+        1fr
+      );
+    }
+  }
+
+  .item {
+    min-width: 70%;
+    margin: var(--item-margin);
+    border-radius: var(--border-radius);
+    padding: var(--item-padding);
+    color: white;
+    font-family: var(--font);
+  }
+
+  .item:nth-child(4n+1),
+  .item:nth-child(4n+3) {
+    background-color: var(--background-2);
+  }
+
+  .item:nth-child(4n+2) {
+    background-color: var(--background-3);
+  }
+
+  .item:nth-child(4n) {
+    background-color: var(--background-1);
+  }
+
+
+  .eye-color {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    line-height: 1;
+    margin-top: 4px;
+  }
+
+  .eye-icon {
+    width: 40px;
+    height: 40px;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .eye-icon.blue {
+    filter: hue-rotate(var(--eye-blue));
+  }
+  
+  .eye-icon.brown {
+    filter: hue-rotate(var(--eye-brown));
+  }
+  
+  .eye-icon.green {
+    filter: hue-rotate(var(--eye-green));
+  }
+
+  .name {
+    font-weight: bold;
+    width: 90%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+
 </style>
