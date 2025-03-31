@@ -29,6 +29,7 @@
     "@vue/cli-service": "~5.0.8",
     "@vue/compiler-sfc": "^3.0.0",
     "babel-eslint": "^10.1.0",
+    "cypress": "^14.2.1",
     "eslint": "^8.43.0",
     "eslint-config-suade": "^4.0.9",
     "sass": "^1.72.0",

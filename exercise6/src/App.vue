@@ -19,8 +19,8 @@
   <h4>Solution</h4>
   <div class="solution">
     <div class="data-container">
-      <input type="text" v-model="searchString" placeholder="Search" data-cy="search-input"/>
-      <Table :rows="paginatedData" :cols="data.columns" v-model:sorting="sorting"/>
+      <input v-model="searchString" type="text" placeholder="Search" data-cy="search-input"/>
+      <TableComponent v-model:sorting="sorting" :rows="paginatedData" :cols="data.columns" />
       <Pagination v-model:offset="pagination.offset" :limit="pagination.limit" :total="filteredData.length"/>
     </div>
   </div>
@@ -31,11 +31,11 @@
 
   import people from './assets/people.json';
   import Pagination from './components/Pagination';
-  import Table from './components/Table';
+  import TableComponent from './components/TableComponent';
 
   export default {
     name: 'App',
-    components: {Table, Pagination},
+    components: {TableComponent, Pagination},
     data() {
       return {
         searchString: '',
@@ -94,6 +94,9 @@
       },
     },
     watch: {
+      searchString() {
+        this.pagination.offset = 0;
+      },
       sorting: {
         handler() {
           this.pagination.offset = 0;

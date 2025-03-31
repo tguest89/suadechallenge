@@ -3,7 +3,7 @@
   <table>
     <thead>
       <tr>
-        <th v-for="col in cols" :key="col.key" @click="updateSorting(col.key)" :data-cy="'sort-by-'+col.key">
+        <th v-for="col in cols" :key="col.key" :data-cy="'sort-by-'+col.key" @click="updateSorting(col.key) ">
           {{ col.label }}
           <i class="sort asc" :class="{active: sorting.key === col.key && sorting.direction === 'asc'}">&#9650;</i>
           <i class="sort desc" :class="{active: sorting.key === col.key && sorting.direction === 'desc'}">&#9660;</i>
@@ -22,7 +22,7 @@
 <script>
 
   export default {
-    name: 'Table',
+    name: 'TableComponent',
     emits: ['update:sorting'],
     props: {
       rows: {type: Array, default: ()=>[]},

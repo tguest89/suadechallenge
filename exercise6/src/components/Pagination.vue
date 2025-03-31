@@ -2,9 +2,9 @@
 
   <div class="pagination">
     <ul>
-      <li @click="changePage(currentPage-1)" :class="{disabled: currentPage === 0}" data-cy="go-to-previous-page">&lt;</li>
-      <li v-for="p in pages" :key="p" @click="changePage(p)" :class="{active: p === currentPage}" :data-cy="'go-to-page-'+(p+1)">{{ p + 1 }}</li>
-      <li @click="changePage(currentPage+1)" :class="{disabled: currentPage === pages.length - 1}" data-cy="go-to-next-page">&gt;</li>
+      <li :class="{disabled: currentPage === 0}" data-cy="go-to-previous-page" @click="changePage(currentPage-1)" >&lt;</li>
+      <li v-for="p in pages" :key="p" :class="{active: p === currentPage}" :data-cy="'go-to-page-'+(p+1)" @click="changePage(p)" >{{ p + 1 }}</li>
+      <li :class="{disabled: currentPage === pages.length - 1}" data-cy="go-to-next-page" @click="changePage(currentPage+1)" >&gt;</li>
     </ul>
   </div>
 
@@ -24,7 +24,7 @@
       pages() {
         return new Array(Math.ceil(this.total / this.limit))
           .fill()
-          .map((v, i)=>i);
+          .map((_, i)=>i);
       },
       currentPage() {
         return (this.offset / this.limit);
