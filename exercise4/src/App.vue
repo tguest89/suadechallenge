@@ -35,10 +35,11 @@
     components: { 
       List,
     },
-    data() {
-      return {
-        people: [],
-      };
+    computed: {
+      people() {
+        return this.$store.state.people
+
+      },
     },
     methods: {
       fetchPeople() {
@@ -51,7 +52,7 @@
       sortByAge: helpers.sortByAge,
     },
     created() {
-      this.fetchPeople();
+      this.$store.dispatch('getPeople');
     },
   };
 </script>
