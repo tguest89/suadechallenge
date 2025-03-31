@@ -17,13 +17,43 @@
   </div>
   <h4>Solution</h4>
   <div class="solution">
-    <!-- TODO: implement template here -->
+    <List :data="people" :sorting="sortByAge" :filtering="filterByAge(25, 35)">
+      <template v-slot:default="{ item }">
+        {{ item.name }} - {{ item.age }} years old
+      </template>
+    </List>
   </div>
 
 </template>
 
 <script>
-  // TODO: implement logic here
+  import List from './components/List.vue';
+  import helpers from './helpers/helpers.js';
+
+  export default {
+    name: 'App',
+    components: { 
+      List,
+    },
+    data() {
+      return {
+        people: [],
+      };
+    },
+    methods: {
+      fetchPeople() {
+        this.$store.dispatch('getPeople')
+          .then(() => {
+            this.people = this.$store.state.people;
+          });
+      },
+      filterByAge: helpers.filterByAge,
+      sortByAge: helpers.sortByAge,
+    },
+    created() {
+      this.fetchPeople();
+    },
+  };
 </script>
 
 <style lang="scss">
